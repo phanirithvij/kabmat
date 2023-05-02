@@ -13,7 +13,7 @@ MANDIR = $(DATAROOTDIR)/man
 TARGET = kabmat
 SRC_DIR = src
 BUILD_DIR = bin
-DATA_DIR = ~/.local/share/kabmat
+KABMAT_DATA_DIR = dist/kabmat
 
 CFLAGS = -std=c++17 -Wall -Wextra
 
@@ -26,15 +26,15 @@ OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 .PHONY: all
 all:
 	for dirname in $$(find $(SRC_DIR) -type d | sed 's/'$(SRC_DIR)'/'$(BUILD_DIR)'/'); do mkdir -p $$dirname; done
-	mkdir -p $(DATA_DIR)
-	touch $(DATA_DIR)/data
+	mkdir -p $(KABMAT_DATA_DIR)
+	touch $(KABMAT_DATA_DIR)/data
 	+$(MAKE) $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) $(CFLAGS) -o $@ $(LOADLIBS)
+	$(CXX) $(OBJECTS) $(CFLAGS) -o $@ $(LOADLIBS) -I/usr/include/ncurses -L/usr/bin -DNCURSES_STATIC -static
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CFLAGS) -c $< -o $@ $(LOADLIBS)
+	$(CXX) $(CFLAGS) -c $< -o $@ $(LOADLIBS) -I/usr/include/ncurses -L/usr/bin -DNCURSES_STATIC -static
 
 .PHONY: clean
 clean:

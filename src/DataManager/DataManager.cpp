@@ -1,12 +1,25 @@
 #include <filesystem>
 #include <fstream>
+#include <cstdlib>
+#include <string>
 
 #include "../helpers/consts.h"
+#include "../helpers/env_vars/env_vars.h"
 #include "../helpers/trim_spaces/trim_spaces.h"
 #include "DataManager.h"
 
+std::string DATA_FILE = std::string(getenv("HOME")) + "/.local/share/kabmat/data";
+std::string DATA_BACKUP_FILE = std::string(getenv("HOME")) + "/.local/share/kabmat/data_bkp";
+
 DataManager::DataManager() {
   fstream data_file;
+  char* _temp = getenv("KABMAT_DATA_DIR");
+  if (_temp != NULL) {
+    std::string data_dir = std::string(_temp);
+    autoExpandEnvironmentVariables(data_dir);
+    DATA_FILE = data_dir + "/data";
+    DATA_BACKUP_FILE = data_dir + "/data_bkp";
+  }
   data_file.open(DATA_FILE, ios::in);
 
   if (data_file.is_open()) {
