@@ -31,7 +31,10 @@ all:
 	+$(MAKE) $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) $(CFLAGS) -o $@ $(LOADLIBS) -I/usr/include/ncurses -L/usr/bin -DNCURSES_STATIC -static
+	$(CXX) $(OBJECTS) $(CFLAGS) -o $@ -I/usr/include/ncurses -L/usr/bin -DNCURSES_STATIC $(LOADLIBS)
+
+mingw: $(OBJECTS)
+	$(CXX) $(OBJECTS) $(CFLAGS) -o $@ -I/usr/include/ncurses -L/usr/bin -DNCURSES_STATIC -static $(LOADLIBS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@ $(LOADLIBS) -I/usr/include/ncurses -L/usr/bin -DNCURSES_STATIC -static

@@ -22,7 +22,11 @@ int main(int argc, char **argv) {
     curs_set(0);
     start_color();
     use_default_colors();
-
+    attrset(COLOR_PAIR(1));
+    init_color(COLOR_BLACK, 320, 320, 320);
+    init_color(COLOR_WHITE, 0, 0, 0);
+    init_color(COLOR_BLUE,  0, 0, 400);
+    init_color(COLOR_RED,   300, 300, 300);
     init_pair(COLOR_PAIR_FOOTER, COLOR_BLACK, COLOR_WHITE);
     init_pair(COLOR_PAIR_MODE, COLOR_BLACK, COLOR_BLUE);
     init_pair(COLOR_PAIR_HEADER, COLOR_BLACK, COLOR_WHITE);
